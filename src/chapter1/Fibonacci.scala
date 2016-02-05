@@ -2,6 +2,7 @@ package chapter1
 
 object Fibonacci {
 
+	// Exercise 1
 	def fib(n: Int) = {
 		def inner(n1: Int, n2: Int, count: Int): Int = {
 			if (count == 0)

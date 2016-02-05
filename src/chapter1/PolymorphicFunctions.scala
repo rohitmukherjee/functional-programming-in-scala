@@ -51,6 +51,7 @@ object PolymorphicFunctions {
 		go(0, (ds.length - 1) / 2, ds.length - 1)
 	}
 
+	// Exercise 3
 	def isSorted[A](as: Array[A], gt: (A, A) => Boolean): Boolean = {
 		@annotation.tailrec
 		def go(index1: Int, index2: Int): Boolean = {
@@ -61,5 +62,30 @@ object PolymorphicFunctions {
 			else false
 		}
 		go(0, 1)
+	}
+
+	// Exercise 4
+	def partial1[A, B, C](a: A, f: (A, B) => C): B => C = {
+		f(a, _)
+	}
+
+	def partial1Test = {
+		partial1(1, (a: Int, b: Int) => a + b)(5)
+	}
+
+	// Exercise 5
+	def uncurry[A, B, C](f: A => B => C): (A, B) => C = {
+		def inner(a: A, b: B) = {
+			f(a)(b)
+		}
+		inner
+	}
+
+	// Exercise 6 - This is the same as doing (f andThen g) - scala library support
+	def compose[A, B, C](f: B => C, g: A => B): A => C = {
+		def inner(a: A) = {
+			f(g(a))
+		}
+		inner
 	}
 }
