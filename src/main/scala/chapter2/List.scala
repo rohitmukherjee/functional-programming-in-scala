@@ -48,16 +48,99 @@ object List {
 		}
 	}
 
+	def head[A](list: List[A]): A = {
+		list match {
+			case Cons(head, tail) => head
+			case Nil => throw new RuntimeException("Head not defined for this list")
+		}
+	}
+
 	//Exercise 3
 	def drop[A](list: List[A], n: Int): List[A] = {
+		def innerDrop(droppedList: List[A], dropped: Int): List[A] = {
+			if (n <= dropped)
+				droppedList
+			else innerDrop(tail(droppedList), dropped + 1)
+		}
+		innerDrop(list, 0)
+	}
+
+	// Exercise 4
+	def dropWhile[A](l: List[A])(f: A => Boolean): List[A] = {
+		def innerDrop(droppedList: List[A], dropped: Int): List[A] = {
+			if (!f(head(droppedList)))
+				droppedList
+			else innerDrop(tail(droppedList), dropped + 1)
+		}
+		innerDrop(l, 0)
+	}
+
+	// Exercise 5
+	def setHead[A](list: List[A], newHead: A): List[A] = {
+		list match {
+			case Cons(head, tail) => Cons(newHead, tail)
+			case Nil => Cons(newHead, Nil)
+		}
+	}
+
+	def append[A](listOne: List[A], listTwo: List[A]): List[A] = {
+		listOne match {
+			case Nil => listTwo
+			case Cons(head, tail) => Cons(head, append(tail, listTwo))
+		}
+	}
+	// Exercise 6
+	def init[A](l: List[A]): List[A] = {
 		???
+	}
+
+	def foldRight[A, B](list: List[A], initialValue: B)(f: (A, B) => B): B = {
+		list match {
+			case Nil => initialValue
+			case Cons(head, tail) => foldRight(tail, f(head, initialValue))(f)
+		}
+	}
+
+	def sumFoldRight(integers: List[Int]): Int = {
+		foldRight(integers, 0)(_ + _)
+	}
+
+	def productFoldRight(integers: List[Int]): Int = {
+		foldRight(integers, 1)(_ * _)
+	}
+
+	// Exercise 7
+	def productFoldRightWithShortCircuit(integers: List[Int]): Int = {
+		foldRight(integers, 1)((x, y) => {
+			if (x == 0 || y == 0) return 0 // using a return isn't idiomatic Scala, but it does short circuit
+			else x * y
+		})
+	}
+
+	// Exercise 9
+	def length[A](list: List[A]): Int = {
+		foldRight(list, 0)((x, y) =>
+			1 + y)
 	}
 
 	//Test Functions
 	def tailTest = {
-		println(tail(List(1, 2, 3)) == List(2, 3))
-		println(tail(Nil) == Nil)
-		println(tail(List(1, 2)) == List(2))
+		assert(tail(List(1, 2, 3)) == List(2, 3))
+		assert((tail(Nil) == Nil))
+		assert(tail(List(1, 2)) == List(2))
 	}
 
+	def dropTest = {
+		assert(drop(List(1, 2, 3), 1) == List(2, 3))
+		assert(drop(List(1, 2, 3), 2) == List(3))
+		assert(drop(List(1, 2, 3), 3) == Nil)
+		assert(drop(Nil, 1) == Nil)
+		assert(drop(Nil, 2) == Nil)
+	}
+
+	def lengthTest = {
+		assert(length(List(1, 2, 3)) == 3)
+		assert(length(List(1, 2, 3, 4)) == 4)
+		assert(length(Nil) == 0)
+	}
 }
