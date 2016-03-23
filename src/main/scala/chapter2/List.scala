@@ -1,5 +1,7 @@
 package main.scala.chapter2
 
+import scala.annotation.tailrec
+
 // Sealed implies all implementations of List have to be declared in this file
 sealed trait List[+A]
 
@@ -123,24 +125,21 @@ object List {
 			1 + y)
 	}
 
-	//Test Functions
-	def tailTest = {
-		assert(tail(List(1, 2, 3)) == List(2, 3))
-		assert((tail(Nil) == Nil))
-		assert(tail(List(1, 2)) == List(2))
+	// Exercise 10
+	def foldLeft[A, B](l: List[A], initialValue: B)(f: (B, A) => B): B = {
+		@tailrec
+		def foldLeftInner(result: B, list: List[A]): B = {
+			list match {
+				case Nil => result
+				case Cons(head, tail) => foldLeftInner(f(result, head), tail)
+			}
+		}
+		foldLeftInner(initialValue, l)
 	}
 
-	def dropTest = {
-		assert(drop(List(1, 2, 3), 1) == List(2, 3))
-		assert(drop(List(1, 2, 3), 2) == List(3))
-		assert(drop(List(1, 2, 3), 3) == Nil)
-		assert(drop(Nil, 1) == Nil)
-		assert(drop(Nil, 2) == Nil)
+	// Exercise 11
+	def sumUsingFoldLeft(integers: List[Int]): Int = {
+		foldLeft(integers, 0)(_ + _)
 	}
 
-	def lengthTest = {
-		assert(length(List(1, 2, 3)) == 3)
-		assert(length(List(1, 2, 3, 4)) == 4)
-		assert(length(Nil) == 0)
-	}
 }
