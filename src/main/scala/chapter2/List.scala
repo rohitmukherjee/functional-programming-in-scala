@@ -142,4 +142,17 @@ object List {
 		foldLeft(integers, 0)(_ + _)
 	}
 
+	def productUsingFoldLeft(integers: List[Int]): Int = {
+		foldLeft(integers, 1)(_ * _)
+	}
+
+	def lengthUsingFoldLeft(integers: List[Int]): Int = {
+		foldLeft(integers, 0)((x, y) => y + 1)
+	}
+
+	// Exercise 12
+	def reverse[A](integers: List[A]): List[A] = {
+		foldRight(integers, Nil: List[A])((x, y) => Cons(x, y))
+	}
+
 }
