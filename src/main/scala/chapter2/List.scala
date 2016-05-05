@@ -127,14 +127,18 @@ object List {
 
 	// Exercise 10
 	def foldLeft[A, B](l: List[A], initialValue: B)(f: (B, A) => B): B = {
-		@tailrec
-		def foldLeftInner(result: B, list: List[A]): B = {
-			list match {
-				case Nil => result
-				case Cons(head, tail) => foldLeftInner(f(result, head), tail)
-			}
+		var acc = initialValue
+		var these = l
+		while (!isEmpty(these)) {
+			acc = f(acc, head(these))
+			these = tail(these)
 		}
-		foldLeftInner(initialValue, l)
+		acc
+	}
+
+	private def isEmpty[A](l: List[A]): Boolean = l match {
+		case Nil => true
+		case _ => false
 	}
 
 	// Exercise 11
@@ -155,4 +159,50 @@ object List {
 		foldRight(integers, Nil: List[A])((x, y) => Cons(x, y))
 	}
 
+	// Exercise 13
+	def foldLeftUsingFoldRight[A, B](integers: List[A], initialValue: B)(f: (A, B) => B): B = {
+		val reversedList = reverse(integers)
+		foldRight(reversedList, initialValue)(f)
+	}
+
+	// Exercise 13
+	def foldRightUsingFoldLeft[A](integers: List[A]): List[A] = {
+		???
+	}
+
+	// Exercise 14
+	def appendUsingFoldLeft[A](first: List[A], second: List[A]): List[A] = {
+		???
+	}
+
+	def appendUsingFoldRight[A](first: List[A], second: List[A]): List[A] = {
+		???
+		//		foldRight(first, second)((x, y) => Cons(y, x))
+	}
+
+	// Exercise 16
+	def addOne(integers: List[Int]): List[Int] = {
+		reverse(foldRight(integers, Nil: List[Int])((x, y) => Cons(x + 1, y)))
+	}
+
+	// Exercise 17
+	def doubleToString(integers: List[Double]): List[String] = {
+		reverse(foldRight(integers, Nil: List[String])((x, y) => Cons(x.toString, y)))
+	}
+
+	// Exercise 18
+	def map[A, B](l: List[A])(f: A => B): List[B] = {
+		reverse(foldRight(l, Nil: List[B])((x, y) => Cons(f(x), y)))
+	}
+
+	// Exercise 19
+	def filter[A](l: List[A])(f: A => Boolean): List[A] = {
+		reverse(foldRight(l, Nil: List[A])((x, y) => {
+			if (f(x)) {
+				Cons(x, y)
+			} else {
+				y
+			}
+		}))
+	}
 }
