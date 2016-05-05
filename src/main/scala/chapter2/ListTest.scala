@@ -39,4 +39,28 @@ object ListTest {
 		assert(List.doubleToString(List(1, 2.1, 3.2, 4.4)) == List("1.0", "2.1", "3.2", "4.4"))
 	}
 
+	def mapTest = {
+		assert(List.map(List(1, 2, 3))(_ + 1) == List(2, 3, 4))
+		assert(List.map(List(2, 3, 4))(_.toString) == List("2", "3", "4"))
+		assert(List.map(Nil: List[Int])(_ + 1) == Nil)
+	}
+
+	def filterTest = {
+		assert(List.filter(List(1, 2, 3))(_ > 1) == List(2, 3))
+		assert(List.filter(List(2, 3, 4))(_ % 2 == 0) == List(2, 4))
+		assert(List.filter(Nil)(_ => true) == Nil)
+	}
+
+	def flatMapTest = {
+		assert(List.flatMap(List(1, 2, 3))(s => List(s + 1)) == List(2, 3, 4))
+		assert(List.flatMap(List(3, 4))(s => List(1 to s: _*)) == List(1, 2, 3, 1, 2, 3, 4))
+		assert(List.flatMap(Nil: List[Int])(s => List(1 to s)) == Nil)
+	}
+
+	def filterUsingFlatMapTest = {
+		assert(List.filterUsingFlatMap(List(1, 2, 3))(_ > 1) == List(2, 3))
+		assert(List.filterUsingFlatMap(List(2, 3, 4))(_ % 2 == 0) == List(2, 4))
+		assert(List.filterUsingFlatMap(Nil)(_ => true) == Nil)
+	}
+
 }

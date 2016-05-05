@@ -205,4 +205,22 @@ object List {
 			}
 		}))
 	}
+
+	// Exercise 20
+	def flatMap[A, B](l: List[A])(f: A => List[B]): List[B] = {
+		l match {
+			case Nil => Nil
+			case Cons(head, tail) => append(f(head), flatMap(tail)(f))
+		}
+	}
+
+	// Exercise 21
+	def filterUsingFlatMap[A](l: List[A])(f: A => Boolean): List[A] = {
+		flatMap(l)(x => if (f(x)) List(x) else Nil)
+	}
+
+	// Exercse 22
+	def addLists(l1: List[Int], l2: List[Int]): List[Int] = {
+		???
+	}
 }

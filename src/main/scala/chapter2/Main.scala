@@ -9,5 +9,9 @@ object Main {
 		ListTest.foldRightTest
 		ListTest.addOneTest
 		ListTest.doubleToStringTest
+		ListTest.mapTest
+		ListTest.filterTest
+		ListTest.flatMapTest
+		ListTest.filterUsingFlatMapTest
 	}
 }
