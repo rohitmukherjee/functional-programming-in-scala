@@ -13,5 +13,7 @@ object Main {
 		ListTest.filterTest
 		ListTest.flatMapTest
 		ListTest.filterUsingFlatMapTest
+		ListTest.addListsTest
+		ListTest.hasSubsequenceTest
 	}
 }

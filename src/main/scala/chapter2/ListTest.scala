@@ -63,4 +63,17 @@ object ListTest {
 		assert(List.filterUsingFlatMap(Nil)(_ => true) == Nil)
 	}
 
+	def addListsTest = {
+		assert(List.addLists(Nil, Nil) == Nil)
+		assert(List.addLists(List(1, 2, 3), List(1, 2, 3)) == List(2, 4, 6))
+		assert(List.addLists(List(1, 8), List(1, 2)) == List(2, 10))
+	}
+
+	def hasSubsequenceTest = {
+		assert(List.hasSubsequence(List(1, 2, 3, 4), Nil) == true)
+		assert(List.hasSubsequence(Nil, Nil) == true)
+		assert(List.hasSubsequence(List(1, 2, 3, 4), List(2, 3, 5)) == false)
+		assert(List.hasSubsequence(List(1, 2, 3, 4), List(2, 3)) == true)
+	}
+
 }

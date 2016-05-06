@@ -167,17 +167,19 @@ object List {
 
 	// Exercise 13
 	def foldRightUsingFoldLeft[A](integers: List[A]): List[A] = {
+		// TODO:foldRightUsingFoldLeft 
 		???
 	}
 
 	// Exercise 14
 	def appendUsingFoldLeft[A](first: List[A], second: List[A]): List[A] = {
+		// TODO:appendUsingFoldLeft
 		???
 	}
 
 	def appendUsingFoldRight[A](first: List[A], second: List[A]): List[A] = {
+		// TODO:appendUsingFoldRight
 		???
-		//		foldRight(first, second)((x, y) => Cons(y, x))
 	}
 
 	// Exercise 16
@@ -219,8 +221,46 @@ object List {
 		flatMap(l)(x => if (f(x)) List(x) else Nil)
 	}
 
-	// Exercse 22
+	// Exercise 22
 	def addLists(l1: List[Int], l2: List[Int]): List[Int] = {
-		???
+		require(length(l1) == length(l2), "Both lists should be of equal length")
+		def inner(cl1: List[Int], cl2: List[Int], sumList: List[Int]): List[Int] = {
+			(cl1, cl2) match {
+				case (Nil, Nil) => sumList
+				case (Cons(h1, t1), Cons(h2, t2)) => inner(t1, t2, Cons(h1 + h2, sumList))
+			}
+		}
+		reverse(inner(l1, l2, Nil: List[Int]))
+	}
+
+	// Exercise 23
+	def addListsGeneric[A](l1: List[A], l2: List[A])(f: (A, A) => A): List[A] = {
+		require(length(l1) == length(l2), "Both lists should be of equal length")
+		def inner(cl1: List[A], cl2: List[A], sumList: List[A]): List[A] = {
+			(cl1, cl2) match {
+				case (Nil, Nil) => sumList
+				case (Cons(h1, t1), Cons(h2, t2)) => inner(t1, t2, Cons(f(h1, h2), sumList))
+			}
+		}
+		reverse(inner(l1, l2, Nil: List[A]))
+	}
+
+	// Exercise 24 
+	def hasSubsequence[A](l: List[A], sub: List[A]): Boolean = {
+		// TODO: Fix this function
+		def inner(l1: List[A], sub1: List[A], started: Boolean): Boolean = {
+			if (sub != Nil && l1 == Nil) {
+				false
+			} else if (sub == Nil) {
+				true
+			} else if (head(l1) != head(sub1) && !started) {
+				inner(tail(l1), sub, started)
+			} else if (head(l1) != head(sub1) && started) {
+				false
+			} else {
+				inner(tail(l1), tail(sub), true)
+			}
+		}
+		inner(l, sub, false)
 	}
 }
