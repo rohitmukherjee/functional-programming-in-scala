@@ -197,6 +197,13 @@ object List {
 		reverse(foldRight(l, Nil: List[B])((x, y) => Cons(f(x), y)))
 	}
 
+	def mapWithoutFold[A, B](l: List[A])(f: A => B): List[B] = {
+		l match {
+			case Nil => Nil
+			case Cons(head, tail) => Cons(f(head), map(tail)(f))
+		}
+	}
+
 	// Exercise 19
 	def filter[A](l: List[A])(f: A => Boolean): List[A] = {
 		reverse(foldRight(l, Nil: List[A])((x, y) => {

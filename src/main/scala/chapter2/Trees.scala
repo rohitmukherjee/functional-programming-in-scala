@@ -26,12 +26,29 @@ object Tree {
 
 	// Exercise 27
 	def depth[A](tree: Tree[A]): Int = {
-		def depthInner(currentTree: Tree[A], d: Int): Int = {
-			currentTree match {
-				case Leaf(_) => d + 1
-				case Branch(left, right) => depthInner(left, d)
-			}
+		tree match {
+			case leaf: Leaf[A] => 1
+			case Branch(left, right) => 1 + (depth(left) max depth(right))
 		}
-		???
 	}
+
+	// Exercise 28 
+	def map[A, B](tree: Tree[A])(f: A => B): Tree[B] = {
+		tree match {
+			case leaf: Leaf[A] => Leaf(f(leaf.value))
+			case branch: Branch[A] => Branch(map(branch.right)(f), map(branch.left)(f))
+		}
+	}
+
+	/*
+	 * Exercise 29 - General purpose fold function that can be used to implement size/depth etc.
+	 * Just traverses over the tree in
+	 */
+	def fold[A, B](tree: Tree[A], z: B)(f: (A, B) => B): B = {
+		tree match {
+			case leaf: Leaf[A] => f(leaf.value, z)
+			case branch: Branch[A] => ???
+		}
+	}
+
 }

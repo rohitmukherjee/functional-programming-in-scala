@@ -10,6 +10,7 @@ object Main {
 		ListTest.addOneTest
 		ListTest.doubleToStringTest
 		ListTest.mapTest
+		ListTest.mapWithoutFoldTest
 		ListTest.filterTest
 		ListTest.flatMapTest
 		ListTest.filterUsingFlatMapTest

@@ -45,6 +45,12 @@ object ListTest {
 		assert(List.map(Nil: List[Int])(_ + 1) == Nil)
 	}
 
+	def mapWithoutFoldTest = {
+		assert(List.mapWithoutFold(List(1, 2, 3))(_ + 1) == List(2, 3, 4))
+		assert(List.mapWithoutFold(List(2, 3, 4))(_.toString) == List("2", "3", "4"))
+		assert(List.mapWithoutFold(Nil: List[Int])(_ + 1) == Nil)
+	}
+
 	def filterTest = {
 		assert(List.filter(List(1, 2, 3))(_ > 1) == List(2, 3))
 		assert(List.filter(List(2, 3, 4))(_ % 2 == 0) == List(2, 4))
