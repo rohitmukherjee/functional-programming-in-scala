@@ -47,7 +47,7 @@ object Tree {
 	def fold[A, B](tree: Tree[A], z: B)(f: (A, B) => B): B = {
 		tree match {
 			case leaf: Leaf[A] => f(leaf.value, z)
-			case branch: Branch[A] => ???
+			case branch: Branch[A] => fold(branch.left, fold(branch.right, z)(f))(f)
 		}
 	}
 
